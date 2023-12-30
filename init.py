@@ -59,9 +59,14 @@ def tag_list():
 
 if __name__ == '__main__':
     load_data()
-    # Delete the build directory if it exists
-    if os.path.exists('build'):
-        shutil.rmtree('build')
+    # Delete the docs directory if it exists
+    if os.path.exists('docs'):
+        shutil.rmtree('docs')
     # app.run(debug=True)
+
+    # Rename the build directory to docs
+    if os.path.exists('build'):
+        os.rename('build', 'docs') 
+
     freezer.freeze()
 
