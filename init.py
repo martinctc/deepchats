@@ -1,8 +1,13 @@
 from flask import Flask, render_template
+from flask_frozen import Freezer
+import shutil
 import json
 import os
 
 app = Flask(__name__)
+
+# Create a Freezer instance
+freezer = Freezer(app)
 
 data = []
 id_to_question = {}
@@ -35,16 +40,28 @@ def load_data():
 def home():
     return render_template('index.html', data=data)
 
-@app.route('/tags/<tag>')
+# Add a route for the home page for tags
+@app.route('/tags/index.html')
+def tags_index():
+    tags = set(tag for item in data for tag in item.get('tags', []))
+    return render_template('tags.html', tags=tags)
+
+# Add a route for each item in the data
+@app.route('/tags/<tag>.html')
 def tags(tag):
     filtered_data = [item for item in data if tag in item.get('tags', [])]
     return render_template('index.html', data=filtered_data)
 
-@app.route('/tags')
+@app.route('/tags.html')
 def tag_list():
     tags = set(tag for item in data for tag in item.get('tags', []))
     return render_template('tags.html', tags=tags)
 
 if __name__ == '__main__':
     load_data()
-    app.run(debug=True)
+    # Delete the build directory if it exists
+    if os.path.exists('build'):
+        shutil.rmtree('build')
+    # app.run(debug=True)
+    freezer.freeze()
+
