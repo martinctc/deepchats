@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+  <!-- Cards -->
+  <div class="row">
+    {% for item in data %}
+      <div class="col-lg-6 col-12 mb-4">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">{{ item['question'] }}</h2>
+          </div>
+          <div class="card-body">
+            <p class="card-text">{{ item['description'] }}</p>
+            <p class="card-text"><small class="text-muted">Similar questions: {{ item['related_questions'] }}</small></p>
+            <p class="card-text"><small class="text-muted">Tags: {{ item['tags']|join(", ") }}</small></p>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  {% endblock %}
