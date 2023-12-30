@@ -18,3 +18,6 @@ python init.py
 ## Notes
 
 - `index.html` determines the template for the main page.
+- `base.html` provides the base HTML design for the site.
+- `tags.html` provides a summary of all the tags used in the JSON dataset. 
+- `data/*.json` are JSON files that contain the data for the site.
