@@ -40,6 +40,10 @@ def load_data():
 def home():
     return render_template('index.html', data=data)
 
+@app.route('/about.html')
+def about():
+    return render_template('about.html', data=data)
+
 # Add a route for the home page for tags
 @app.route('/tags/index.html')
 def tags_index():

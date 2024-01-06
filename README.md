@@ -15,6 +15,8 @@ From the directory, run this in Command Prompt:
 python init.py
 ```
 
+The static website files will be created in the `build` sub-directory, which can then be hosted through GitHub Pages.
+
 ## Notes
 
 - `index.html` determines the template for the main page.
