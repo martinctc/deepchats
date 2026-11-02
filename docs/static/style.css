@@ -1,0 +1,200 @@
+/* --------------------------------------------------------------------------
+   Deep Chats — custom styles layered on top of Bootstrap 4
+   Light/dark themes via CSS variables driven by <html data-theme="...">
+   -------------------------------------------------------------------------- */
+:root {
+  --bg: #ffffff;
+  --bg-alt: #f8f9fa;
+  --text: #212529;
+  --text-muted: #6c757d;
+  --border: #dee2e6;
+  --card-bg: #ffffff;
+  --card-header-bg: #f8f9fa;
+  --accent: #17a2b8;
+  --accent-contrast: #ffffff;
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 4px 14px rgba(0, 0, 0, 0.05);
+  --shadow-hover: 0 4px 10px rgba(0, 0, 0, 0.1), 0 12px 28px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] {
+  --bg: #14161a;
+  --bg-alt: #1d2025;
+  --text: #e6e6e6;
+  --text-muted: #9aa0a6;
+  --border: #2d3138;
+  --card-bg: #1d2025;
+  --card-header-bg: #242830;
+  --accent: #2aa9bd;
+  --accent-contrast: #ffffff;
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.4), 0 4px 14px rgba(0, 0, 0, 0.3);
+  --shadow-hover: 0 4px 10px rgba(0, 0, 0, 0.45), 0 12px 28px rgba(0, 0, 0, 0.35);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+a { color: var(--accent); }
+a:hover { color: var(--accent); filter: brightness(1.15); }
+
+hr { border-color: var(--border); }
+
+.text-muted { color: var(--text-muted) !important; }
+
+/* --- Accessibility helpers ------------------------------------------------ */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 1000;
+  padding: 0.5rem 1rem;
+  background: var(--accent);
+  color: var(--accent-contrast);
+}
+.skip-link:focus { left: 0; }
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* --- Header / navigation -------------------------------------------------- */
+.site-title { font-size: 1.75rem; margin-top: 1rem; }
+.site-title a { color: inherit; text-decoration: none; }
+.site-title a:hover { color: var(--accent); text-decoration: none; }
+
+.navbar {
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+}
+.navbar-light { background-color: var(--bg-alt) !important; }
+.navbar-light .navbar-nav .nav-link {
+  color: var(--text);
+  font-weight: 500;
+  border-radius: 0.25rem;
+}
+.navbar-light .navbar-nav .nav-link:hover,
+.navbar-light .navbar-nav .nav-item.active .nav-link {
+  color: var(--accent);
+}
+.nav-item.active .nav-link { background-color: rgba(23, 162, 184, 0.12); }
+
+/* The "Surprise me" control is a button styled as a nav link */
+#surprise-btn {
+  cursor: pointer;
+  text-decoration: underline;
+  border: none;
+  background: none;
+}
+#surprise-btn:hover { color: var(--accent); }
+
+#theme-toggle { line-height: 1; }
+
+/* --- Cards ---------------------------------------------------------------- */
+.card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  box-shadow: var(--shadow);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.card-header {
+  background-color: var(--card-header-bg);
+  border-bottom: 1px solid var(--border);
+  border-radius: 0.5rem 0.5rem 0 0 !important;
+}
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--accent);
+}
+.search-card { transition: opacity 0.2s ease; }
+
+/* Highlight used by "Surprise me" */
+.card.flash { animation: card-flash 1.6s ease; }
+@keyframes card-flash {
+  0%, 100% { box-shadow: var(--shadow); }
+  25%, 75% {
+    box-shadow: 0 0 0 3px var(--accent), var(--shadow-hover);
+    transform: translateY(-3px);
+  }
+}
+
+/* --- Tags ----------------------------------------------------------------- */
+.tag-badge {
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 0.4em 0.75em;
+  text-decoration: none;
+}
+.tag-badge:hover { filter: brightness(1.1); color: var(--accent-contrast); }
+.tag-list-badge { font-size: 1rem; margin: 0.25rem; }
+
+.related-link { white-space: nowrap; }
+
+/* --- Search --------------------------------------------------------------- */
+#search-status { min-height: 1.25rem; margin-bottom: 0.5rem; }
+
+/* --- Forms / buttons in dark mode ---------------------------------------- */
+[data-theme="dark"] .form-control {
+  background-color: var(--bg-alt);
+  border-color: var(--border);
+  color: var(--text);
+}
+[data-theme="dark"] .form-control::placeholder { color: var(--text-muted); }
+[data-theme="dark"] .form-control:focus {
+  background-color: var(--bg-alt);
+  border-color: var(--accent);
+  color: var(--text);
+}
+[data-theme="dark"] .btn-outline-success {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+[data-theme="dark"] .btn-outline-success:hover {
+  background-color: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-contrast);
+}
+[data-theme="dark"] .btn-outline-secondary {
+  color: var(--text);
+  border-color: var(--border);
+}
+[data-theme="dark"] .btn-outline-secondary:hover {
+  background-color: var(--bg-alt);
+  color: var(--text);
+}
+[data-theme="dark"] .badge-light { background-color: var(--bg-alt); color: var(--text); }
+[data-theme="dark"] .badge-info {
+  background-color: transparent;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+}
+[data-theme="dark"] .alert-info {
+  background-color: rgba(42, 169, 189, 0.12);
+  border-color: var(--accent);
+  color: var(--text);
+}
+[data-theme="dark"] .navbar-toggler { border-color: var(--border); }
+[data-theme="dark"] .dropdown-menu { background-color: var(--card-bg); }
+
+/* --- Footer --------------------------------------------------------------- */
+.site-footer {
+  margin-top: 2.5rem;
+  padding: 1rem 0 2rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.9rem;
+}

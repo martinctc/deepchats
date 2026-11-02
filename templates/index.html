@@ -1,20 +1,41 @@
 {% extends "base.html" %}
 {% block content %}
+  <!-- Client-side search reads this JSON index; cards below carry data-index keys into it -->
+  <script id="search-index" type="application/json">{{ data|tojson }}</script>
+
+  <p class="text-muted" id="search-status" role="status" aria-live="polite"></p>
+  <div class="alert alert-info" id="search-empty" hidden>
+    No questions match your search. Try different keywords or browse the <a href="{{ rel_url('tags_index') }}">tags</a>.
+  </div>
+
   <!-- Cards -->
-  <div class="row">
+  <div class="row" id="card-grid">
     {% for item in data %}
-      <div class="col-lg-6 col-12 mb-4">
-        <div class="card">
+      <div class="col-lg-6 col-12 mb-4 search-card" data-id="{{ item['id'] }}" data-index="{{ loop.index0 }}">
+        <div class="card h-100">
           <div class="card-header">
-            <h2 class="card-title">{{ item['question'] }}</h2>
+            <h2 class="card-title h5 mb-0">{{ item['question'] }}</h2>
           </div>
           <div class="card-body">
             <p class="card-text">{{ item['description'] }}</p>
-            <p class="card-text"><small class="text-muted">Similar questions: {{ item['related_questions'] }}</small></p>
-            <p class="card-text"><small class="text-muted">Tags: {{ item['tags']|join(", ") }}</small></p>
+            {% if item['related'] %}
+              <p class="card-text"><small class="text-muted">Similar questions:
+                {% for r in item['related'] %}<a class="related-link" href="{{ rel_url('home') }}?q={{ r['question']|urlencode }}">{{ r['question'] }}</a>{% if not loop.last %}, {% endif %}{% endfor %}
+              </small></p>
+            {% endif %}
+            <p class="card-text mb-0">
+              {% for tag in item['tags'] %}
+                <a class="badge badge-pill badge-info tag-badge" href="{{ rel_url('tags', tag=tag) }}">{{ tag }}</a>
+              {% endfor %}
+            </p>
           </div>
         </div>
       </div>
     {% endfor %}
   </div>
-  {% endblock %}
+{% endblock %}
+
+{% block scripts %}
+  <!-- Fuse.js only exists on card pages; search.js degrades to substring matching without it -->
+  <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js" crossorigin="anonymous"></script>
+{% endblock %}
