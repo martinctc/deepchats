@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Deep Chats question",
+  "description": "One question card in the compendium. Each file in data/ must match this schema; init.py validates every file before building the site.",
+  "type": "object",
+  "required": ["id", "question", "description", "related_id", "tags"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Unique identifier. The file must be named <id>.json."
+    },
+    "question": {
+      "type": "string",
+      "minLength": 10,
+      "description": "The question shown as the card title."
+    },
+    "description": {
+      "type": "string",
+      "minLength": 10,
+      "description": "A short note on why this question works."
+    },
+    "related_id": {
+      "type": "array",
+      "items": { "type": "integer", "minimum": 1 },
+      "uniqueItems": true,
+      "description": "Ids of related questions. Every id must resolve to an existing file."
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "uniqueItems": true,
+      "minItems": 1,
+      "description": "Tags used to group and filter questions."
+    }
+  }
+}

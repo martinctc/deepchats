@@ -1,13 +1,17 @@
 {% extends "base.html" %}
 
+{% block title %}Tags — Deep Chats{% endblock %}
+
 {% block content %}
 <!-- Tags -->
-<div class="container my-4">
-  <div class="row">
-    {% for tag in tags %}
-      <div class="col-lg-4 col-12 mb-4">
-        <a href="https://martinctc.github.io/deepchats{{ url_for('tags', tag=tag) }}">{{ tag }}</a>
-      </div>
+<div class="my-4">
+  <h2 class="h4">Browse by tag</h2>
+  <p class="text-muted">Each tag groups questions on a shared theme.</p>
+  <div>
+    {% for tag, count in tag_counts.items() %}
+      <a class="badge badge-pill badge-info tag-badge tag-list-badge" href="{{ rel_url('tags', tag=tag) }}">
+        {{ tag }} <span class="badge badge-light">{{ count }}</span>
+      </a>
     {% endfor %}
   </div>
 </div>
